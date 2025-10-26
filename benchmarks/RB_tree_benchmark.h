@@ -200,7 +200,6 @@ private:
             v->parent = u->parent;
     }
     
-    // Función para calcular la altura de un subárbol
     int calculate_height(Node_benchmark<T>* node) {
         if (node == nullptr)
             return 0;
@@ -293,8 +292,6 @@ public:
     bool find(T key) {
         return find_node(key) != nullptr;
     }
-    
-    // ===== Métodos para benchmark de comparaciones =====
     long long get_comparisons() const {
         return comparison_count;
     }
@@ -302,8 +299,6 @@ public:
     void reset_comparisons() {
         comparison_count = 0;
     }
-    
-    // ===== Métodos para benchmark de espacio =====
     int get_height() {
         return calculate_height(root);
     }
