@@ -1,5 +1,4 @@
 #include <iostream>
-#include <windows.h>
 #include <iomanip>
 #include <limits>
 #include "RB_tree.h"
@@ -209,7 +208,10 @@ void run_all_space_benchmarks() {
 
 int main() {
     // Habilitar UTF-8 en consola de Windows
-    SetConsoleOutputCP(CP_UTF8);
+    #ifdef _WIN32
+        #include <windows.h>
+        SetConsoleOutputCP(CP_UTF8);
+    #endif
 
     RB_tree<int> tree;
     int opcion;

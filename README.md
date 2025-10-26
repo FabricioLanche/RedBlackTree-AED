@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Implementación académica de un **Árbol Rojo-Negro (Red-Black Tree)** en C++ con sistema de benchmarking integrado. Este proyecto se desarrolló como parte del curso de Algoritmos y Estructuras de Datos, siguiendo el pseudocódigo y especificaciones presentadas por **Thomas H. Cormen** en su libro *"Introduction to Algorithms"*.
+Implementación de un **Árbol Rojo-Negro (Red-Black Tree)** en C++ con sistema de benchmarking integrado. Este proyecto se desarrolló como parte del curso de Algoritmos y Estructuras de Datos, siguiendo el pseudocódigo y especificaciones presentadas por **Thomas H. Cormen** en su libro *"Introduction to Algorithms"*.
 
 ## Base Teórica
 
