@@ -22,15 +22,12 @@ BenchmarkResult run_benchmark(int size) {
     result.search_time = 0.0;
     result.delete_time = 0.0;
     for (int rep = 0; rep < NUM_REPETITIONS; rep++) {
-        // Generar datos aleatorios únicos
         std::vector<int> data(size);
 
-        // Generar secuencia ordenada
         for (int i = 0; i < size; i++) {
             data[i] = i + 1;
         }
 
-        // Barajar para obtener orden aleatorio
         std::random_device rd;
         std::mt19937 gen(rd());
         std::shuffle(data.begin(), data.end(), gen);
@@ -44,27 +41,17 @@ BenchmarkResult run_benchmark(int size) {
         std::chrono::duration<double> diff = end - start;
         result.insert_time += diff.count();
 
-        std::vector<int> search_keys(size / 10);
-        for (int i = 0; i < size / 10; i++) {
-            search_keys[i] = data[i * 10];
-        }
-
         start = std::chrono::high_resolution_clock::now();
-        for (int i = 0; i < size / 10; i++) {
-            tree.find(search_keys[i]);
+        for (int i = 0; i < size; i++) {
+            tree.find(data[i]);
         }
         end = std::chrono::high_resolution_clock::now();
         diff = end - start;
         result.search_time += diff.count();
 
-        std::vector<int> delete_keys(size / 10);
-        for (int i = 0; i < size / 10; i++) {
-            delete_keys[i] = data[i * 10];
-        }
-
         start = std::chrono::high_resolution_clock::now();
-        for (int i = 0; i < size / 10; i++) {
-            tree.delete_leaf(delete_keys[i]);
+        for (int i = 0; i < size; i++) {
+            tree.delete_leaf(data[i]);
         }
         end = std::chrono::high_resolution_clock::now();
         diff = end - start;

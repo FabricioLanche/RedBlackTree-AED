@@ -37,24 +37,15 @@ BenchmarkComparisonResult run_benchmark_comparisons(int size) {
         }
         result.insert_comparisons += tree.get_comparisons();
         
-        std::vector<int> search_keys(size / 10);
-        for (int i = 0; i < size / 10; i++) {
-            search_keys[i] = data[i * 10];
-        }
-        
         tree.reset_comparisons();
-        for (int i = 0; i < size / 10; i++) {
-            tree.find(search_keys[i]);
+        for (int i = 0; i < size; i++) {
+            tree.find(data[i]);
         }
         result.search_comparisons += tree.get_comparisons();
-        std::vector<int> delete_keys(size / 10);
-        for (int i = 0; i < size / 10; i++) {
-            delete_keys[i] = data[i * 10];
-        }
         
         tree.reset_comparisons();
-        for (int i = 0; i < size / 10; i++) {
-            tree.delete_leaf(delete_keys[i]);
+        for (int i = 0; i < size; i++) {
+            tree.delete_leaf(data[i]);
         }
         result.delete_comparisons += tree.get_comparisons();
     }

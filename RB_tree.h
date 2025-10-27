@@ -61,23 +61,27 @@ private:
 
     // Complejidad: O(log n) - recorre la altura del árbol que está balanceado
     // El número de rotaciones es constante (máximo 2), pero el recorrido hacia arriba es O(log n)
+    // Proceso de fix-up en dos fases: inserción inicial + verificación ascendente
     void add_leaf_fixup(Node<T>* k) {
         while (k != root && k->parent->color == true) {
             if (k->parent == k->parent->parent->left) {
                 Node<T>* u = k->parent->parent->right; // tío
                 if (u != nullptr && u->color == true) {
-                    // Caso 1: Tío es rojo
+                    // Caso 1: Padre y tío son rojos
+                    // Recolorear padre y tío a negro, abuelo a rojo, continuar desde abuelo
                     k->parent->color = false;
                     u->color = false;
                     k->parent->parent->color = true;
                     k = k->parent->parent;
                 } else {
                     if (k == k->parent->right) {
-                        // Caso 2: k es hijo derecho
+                        // Caso 2: Padre rojo, tío negro, k es hijo derecho
+                        // Rotación izquierda sobre padre para convertir en Caso 3
                         k = k->parent;
                         left_rotation(k);
                     }
-                    // Caso 3: k es hijo izquierdo
+                    // Caso 3: Padre rojo, tío negro, k es hijo izquierdo
+                    // Rotación derecha sobre abuelo y recolorear
                     k->parent->color = false;
                     k->parent->parent->color = true;
                     right_rotation(k->parent->parent);
@@ -85,15 +89,20 @@ private:
             } else {
                 Node<T>* u = k->parent->parent->left; // tío
                 if (u != nullptr && u->color == true) {
+                    // Caso 1: Padre y tío son rojos (simétrico)
                     k->parent->color = false;
                     u->color = false;
                     k->parent->parent->color = true;
                     k = k->parent->parent;
                 } else {
                     if (k == k->parent->left) {
+                        // Caso 2: Padre rojo, tío negro, k es hijo izquierdo (simétrico)
+                        // Rotación derecha sobre padre para convertir en Caso 3
                         k = k->parent;
                         right_rotation(k);
                     }
+                    // Caso 3: Padre rojo, tío negro, k es hijo derecho (simétrico)
+                    // Rotación izquierda sobre abuelo y recolorear
                     k->parent->color = false;
                     k->parent->parent->color = true;
                     left_rotation(k->parent->parent);
