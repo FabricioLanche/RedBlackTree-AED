@@ -1,10 +1,15 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
+#include <vector>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #include "RB_tree.h"
 #include "benchmarks/benchmarks_seconds.h"
 #include "benchmarks/benchmarks_comparisons.h"
 #include "benchmarks/benchmarks_space.h"
+#include "benchmarks/csv_export.h"
 
 void print_separator() {
     std::cout << std::string(50, '=') << '\n';
@@ -81,21 +86,27 @@ void run_all_time_benchmarks() {
     std::cout << "║                                                        ║" << std::endl;
     std::cout << "╚════════════════════════════════════════════════════════╝" << std::endl;
 
+    std::vector<BenchmarkResult> results;
+
     std::cout << "\n[1/4] Ejecutando benchmark con 10,000 elementos..." << std::endl;
     auto result1 = run_benchmark(10000);
     print_benchmark_time_result("BENCHMARK 10K", result1);
+    results.push_back(result1);
 
     std::cout << "\n[2/4] Ejecutando benchmark con 50,000 elementos..." << std::endl;
     auto result2 = run_benchmark(50000);
     print_benchmark_time_result("BENCHMARK 50K", result2);
+    results.push_back(result2);
 
     std::cout << "\n[3/4] Ejecutando benchmark con 100,000 elementos..." << std::endl;
     auto result3 = run_benchmark(100000);
     print_benchmark_time_result("BENCHMARK 100K", result3);
+    results.push_back(result3);
 
     std::cout << "\n[4/4] Ejecutando benchmark con 200,000 elementos..." << std::endl;
     auto result4 = run_benchmark(200000);
     print_benchmark_time_result("BENCHMARK 200K", result4);
+    results.push_back(result4);
 
     // Resumen comparativo
     std::cout << "\n\n╔════════════════════════════════════════════════════════════════════════╗" << std::endl;
@@ -116,6 +127,9 @@ void run_all_time_benchmarks() {
               << "  ║  " << std::setw(11) << result4.search_time
               << "  ║  " << std::setw(23) << result4.delete_time << "  ║" << std::endl;
     std::cout << "╚════════════╩═══════════════╩═══════════════╩═══════════════════════════╝" << std::endl;
+    
+    // Exportar a CSV
+    export_time_benchmark_to_csv(results);
 }
 
 void run_all_comparison_benchmarks() {
@@ -125,21 +139,27 @@ void run_all_comparison_benchmarks() {
     std::cout << "║                                                        ║" << std::endl;
     std::cout << "╚════════════════════════════════════════════════════════╝" << std::endl;
 
+    std::vector<BenchmarkComparisonResult> results;
+
     std::cout << "\n[1/4] Ejecutando benchmark con 10,000 elementos..." << std::endl;
     auto result1 = run_benchmark_comparisons(10000);
     print_benchmark_comparison_result("BENCHMARK 10K", result1);
+    results.push_back(result1);
 
     std::cout << "\n[2/4] Ejecutando benchmark con 50,000 elementos..." << std::endl;
     auto result2 = run_benchmark_comparisons(50000);
     print_benchmark_comparison_result("BENCHMARK 50K", result2);
+    results.push_back(result2);
 
     std::cout << "\n[3/4] Ejecutando benchmark con 100,000 elementos..." << std::endl;
     auto result3 = run_benchmark_comparisons(100000);
     print_benchmark_comparison_result("BENCHMARK 100K", result3);
+    results.push_back(result3);
 
     std::cout << "\n[4/4] Ejecutando benchmark con 200,000 elementos..." << std::endl;
     auto result4 = run_benchmark_comparisons(200000);
     print_benchmark_comparison_result("BENCHMARK 200K", result4);
+    results.push_back(result4);
 
     // Resumen comparativo
     std::cout << "\n\n╔════════════════════════════════════════════════════════════════════════╗" << std::endl;
@@ -160,6 +180,9 @@ void run_all_comparison_benchmarks() {
               << "  ║  " << std::setw(11) << result4.search_comparisons
               << "  ║  " << std::setw(23) << result4.delete_comparisons << "  ║" << std::endl;
     std::cout << "╚════════════╩═══════════════╩═══════════════╩═══════════════════════════╝" << std::endl;
+    
+    // Exportar a CSV
+    export_comparison_benchmark_to_csv(results);
 }
 
 void run_all_space_benchmarks() {
@@ -169,21 +192,27 @@ void run_all_space_benchmarks() {
     std::cout << "║                                                        ║" << std::endl;
     std::cout << "╚════════════════════════════════════════════════════════╝" << std::endl;
 
+    std::vector<BenchmarkSpaceResult> results;
+
     std::cout << "\n[1/4] Ejecutando benchmark con 10,000 elementos..." << std::endl;
     auto result1 = run_benchmark_space(10000);
     print_benchmark_space_result("BENCHMARK 10K", result1);
+    results.push_back(result1);
 
     std::cout << "\n[2/4] Ejecutando benchmark con 50,000 elementos..." << std::endl;
     auto result2 = run_benchmark_space(50000);
     print_benchmark_space_result("BENCHMARK 50K", result2);
+    results.push_back(result2);
 
     std::cout << "\n[3/4] Ejecutando benchmark con 100,000 elementos..." << std::endl;
     auto result3 = run_benchmark_space(100000);
     print_benchmark_space_result("BENCHMARK 100K", result3);
+    results.push_back(result3);
 
     std::cout << "\n[4/4] Ejecutando benchmark con 200,000 elementos..." << std::endl;
     auto result4 = run_benchmark_space(200000);
     print_benchmark_space_result("BENCHMARK 200K", result4);
+    results.push_back(result4);
 
     // Resumen comparativo
     std::cout << "\n\n╔════════════════════════════════════════════════════════════════════════╗" << std::endl;
@@ -204,12 +233,14 @@ void run_all_space_benchmarks() {
               << "  ║  " << std::setw(11) << std::fixed << std::setprecision(2) << result4.theoretical_max_height
               << "  ║  " << std::setw(28) << std::fixed << std::setprecision(4) << result4.memory_mb << "  ║" << std::endl;
     std::cout << "╚════════════╩═══════════╩═══════════════╩════════════════════════════════╝" << std::endl;
+    
+    // Exportar a CSV
+    export_space_benchmark_to_csv(results);
 }
 
 int main() {
     // Habilitar UTF-8 en consola de Windows
     #ifdef _WIN32
-        #include <windows.h>
         SetConsoleOutputCP(CP_UTF8);
     #endif
 

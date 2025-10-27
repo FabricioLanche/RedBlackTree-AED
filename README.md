@@ -27,10 +27,13 @@ RedBlackTree-AED/
 ├── main.cpp                     # Interfaz interactiva y sistema de menú
 │
 ├── benchmarks/
-│   ├── RB_tree_benchmark.h      # Árbol modificado para mediciones de rendimiento
+│   ├── RB_tree_benchmark.h      # Árbol unificado para mediciones de rendimiento
 │   ├── benchmarks_seconds.h     # Benchmark de tiempo de ejecución
 │   ├── benchmarks_comparisons.h # Benchmark de número de comparaciones
-│   └── benchmarks_space.h       # Benchmark de uso de memoria y altura
+│   ├── benchmarks_space.h       # Benchmark de uso de memoria y altura
+│   └── csv_export.h             # Utilidades para exportar resultados a CSV
+│
+├── benchmarks_out/              # Carpeta de salida para archivos CSV (creada automáticamente)
 │
 └── CMakeLists.txt              # Configuración de compilación
 ```
@@ -79,6 +82,15 @@ El sistema realiza **10 repeticiones** por cada prueba y calcula el **promedio**
 - Número de comparaciones realizadas
 - Altura real del árbol vs. altura teórica máxima (2·log₂(n+1))
 - Uso de memoria (bytes, KB, MB)
+
+**Exportación de resultados:**
+
+Los resultados de todos los benchmarks se exportan automáticamente a archivos CSV en la carpeta `benchmarks_out/`:
+- `benchmark_time_[timestamp].csv` - Resultados de tiempo de ejecución
+- `benchmark_comparisons_[timestamp].csv` - Resultados de comparaciones
+- `benchmark_space_[timestamp].csv` - Resultados de uso de memoria y altura
+
+Los archivos CSV incluyen todos los datos en formato tabular para facilitar su análisis en herramientas como Excel, Python (pandas), R, o cualquier software de análisis de datos.
 
 ## Uso de la Interfaz
 
